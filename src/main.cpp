@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game game(100, 100);
+    Game game(10, 10);
 
     PRINT_ERROR(game.Run());
 

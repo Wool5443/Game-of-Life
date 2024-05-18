@@ -12,11 +12,11 @@ struct GameField
     int   size;
     char* field;
 
-    GameField() : width{0}, height{0}, size{0}, field{nullptr} {}
     GameField(int width, int height);
     ~GameField();
 
     ErrorCode Verify();
+    ErrorCode Dump(FILE* stream);
     ErrorCode Dump(const char* filePath);
 
     char& __attribute__((always_inline)) GetCellRef(int i, int j)

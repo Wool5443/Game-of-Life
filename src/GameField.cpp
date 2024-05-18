@@ -4,15 +4,22 @@
 char* _fieldCreator(int size);
 
 GameField::GameField(int width, int height)
+    :   width{width},
+        height{height},
+        size{width * height},
+        field{_fieldCreator(size)}
 {
-    this->width  = width;
-    this->height = height;
-    this->size   = width * height;
-    
-    this->field = _fieldCreator(this->size);
-
     if (!this->field)
         errno = ERROR_NO_MEMORY;
+}
+
+GameField::~GameField()
+{
+    this->width  = 0;
+    this->height = 0;
+    this->size   = 0;
+    free(this->field);
+    this->field  = nullptr;
 }
 
 ErrorCode GameField::Verify()
@@ -23,23 +30,37 @@ ErrorCode GameField::Verify()
     return EVERYTHING_FINE;
 }
 
-ErrorCode GameField::Dump(const char* filePath)
+ErrorCode GameField::Dump(FILE* stream)
 {
-    MyAssertSoft(filePath, ERROR_NULLPTR);
+    MyAssertSoft(stream, ERROR_BAD_FILE);
 
     RETURN_ERROR(this->Verify());
 
-    FILE* file = fopen(filePath, "w");
-    if (!file) return ERROR_BAD_FILE;
+    fprintf(stream, "---------------------------\n");
 
     for (int i = 0; i < this->height; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-            fprintf(file, "%2hhx ", this->GetCellRef(i, j));
+            fprintf(stream, "%2hhx ", this->GetCellRef(i, j));
         }
-        putc('\n', file);
+        putc('\n', stream);
     }
+
+    fprintf(stream, "---------------------------\n");
+
+    return EVERYTHING_FINE;
+}
+
+ErrorCode GameField::Dump(const char* filePath)
+{
+    MyAssertSoft(filePath, ERROR_NULLPTR);
+
+    FILE* file = fopen(filePath, "w");
+    if (!file) return ERROR_BAD_FILE;
+
+    RETURN_ERROR(this->Dump(file));
+
     fclose(file);
 
     return EVERYTHING_FINE;
