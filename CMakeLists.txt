@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 set(projectName "GameOfLife")
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image)
+
 set(CMAKE_NASM_LINK_EXECUTABLE "ld <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 set(CAN_USE_ASSEMBLER TRUE)
 set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
@@ -31,4 +34,4 @@ include_directories(headers Utils)
 
 add_executable(${projectName} ${SOURCES})
 
-target_link_libraries(${projectName})
+target_link_libraries(${projectName} ${SDL2_LIBRARIES})

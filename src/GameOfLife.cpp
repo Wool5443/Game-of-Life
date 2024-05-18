@@ -35,24 +35,7 @@ ErrorCode Game::Dump(const char* filePath)
     return EVERYTHING_FINE;
 }
 
-ErrorCode Game::Run()
-{
-    oldField->GetCellRef(3, 2) = 1;
-    oldField->GetCellRef(3, 3) = 1;
-    oldField->GetCellRef(3, 4) = 1;
-
-    while (true)
-    {
-        this->oldField->Dump(stdout);
-        this->runNewGeneration();
-
-        getchar();
-    }
-
-    return EVERYTHING_FINE;
-}
-
-ErrorCode Game::runNewGeneration()
+ErrorCode Game::RunNewGeneration()
 {
     int neighbors = 0;
 

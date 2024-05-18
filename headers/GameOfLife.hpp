@@ -9,16 +9,19 @@ class Game
 
     ErrorCode dump(FILE* stream);
 
-    ErrorCode runNewGeneration();
-
 public:
     Game(int fieldWidth, int fieldHeight);
     ~Game();
+
+    const char* __attribute__((always_inline)) GetField()
+    {
+        return (const char*)oldField->field;
+    }
 
     ErrorCode Verify();
 
     ErrorCode Dump(FILE* stream);
     ErrorCode Dump(const char* filePath);
 
-    ErrorCode Run();
+    ErrorCode RunNewGeneration();
 };
