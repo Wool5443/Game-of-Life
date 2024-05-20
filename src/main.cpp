@@ -3,6 +3,7 @@
 #include "WindowProperties.hpp"
 #include "GameOfLife.hpp"
 #include "GameDrawer.hpp"
+#include "EventHandler.hpp"
 
 int main()
 {
@@ -43,6 +44,13 @@ int main()
             {
                 case SDL_QUIT:
                     running = false;
+                    break;
+                case SDL_KEYDOWN:
+                    KeyboardHandler(&e, &running);
+                    break;
+                case SDL_WINDOWEVENT:
+                    if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+                        surface = SDL_GetWindowSurface(window);
                     break;
                 default:
                     break;
