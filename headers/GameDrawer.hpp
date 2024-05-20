@@ -1,10 +1,15 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "GameField.hpp"
+#include "GameOfLife.hpp"
 #include "Utils.hpp"
 
-constexpr uint32_t LIVE_CELL_COLOR = 0xffffffff;
-constexpr uint32_t DEAD_CELL_COLOR = 0x000000ff;
+constexpr char ALPHA = 24;
+constexpr char BLUE  =  0;
+constexpr char GREEN =  8;
+constexpr char RED   = 16;
 
-ErrorCode GameDraw(SDL_Surface* surface, const GameField& field);
+constexpr uint32_t LIVE_CELL_COLOR = (0xff << RED) + (0xff << ALPHA);
+constexpr uint32_t DEAD_CELL_COLOR = (0xff << ALPHA);
+
+ErrorCode GameDraw(SDL_Surface* surface, const Game& game);

@@ -18,12 +18,12 @@ Game::~Game()
     newField = nullptr;
 }
 
-ErrorCode Game::Verify()
+ErrorCode Game::Verify() const
 {
     return EVERYTHING_FINE;
 }
 
-ErrorCode Game::Dump(FILE* stream)
+ErrorCode Game::Dump(FILE* stream) const
 {
     MyAssertSoft(stream, ERROR_BAD_FILE);
     RETURN_ERROR(oldField->Dump(stream));
@@ -31,7 +31,7 @@ ErrorCode Game::Dump(FILE* stream)
     return EVERYTHING_FINE;
 }
 
-ErrorCode Game::Dump(const char* filePath)
+ErrorCode Game::Dump(const char* filePath) const
 {
     MyAssertSoft(filePath, ERROR_NULLPTR);
     RETURN_ERROR(oldField->Dump(filePath));

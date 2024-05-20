@@ -29,6 +29,10 @@ int main()
     }
 
     Game game(10, 10);
+    GameField field = game.GetField();
+    field.SetCellValue(3, 3, 1);
+    field.SetCellValue(3, 4, 1);
+    field.SetCellValue(3, 5, 1);
     RETURN_ERROR((ErrorCode)errno);
 
     while (running)
@@ -45,11 +49,10 @@ int main()
             }
         }
 
-        GameDraw(surface, game.GetField());
-        
-        RETURN_ERROR(game.RunNewGeneration());
-
+        GameDraw(surface, game);
         SDL_UpdateWindowSurface(window);
+        SDL_Delay(100);
+        RETURN_ERROR(game.RunNewGeneration());
     }
 
     SDL_DestroyWindow(window);

@@ -13,15 +13,15 @@ public:
     Game(int fieldWidth, int fieldHeight);
     ~Game();
 
-    const GameField& __attribute__((always_inline)) GetField()
+    const GameField& __attribute__((always_inline)) GetField() const
     {
         return *oldField;
     }
 
-    ErrorCode Verify();
+    ErrorCode Verify() const ;
 
-    ErrorCode Dump(FILE* stream);
-    ErrorCode Dump(const char* filePath);
+    ErrorCode Dump(FILE* stream) const;
+    ErrorCode Dump(const char* filePath) const;
 
     ErrorCode RunNewGeneration();
 };

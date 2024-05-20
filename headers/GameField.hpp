@@ -15,15 +15,15 @@ struct GameField
     GameField(int width, int height);
     ~GameField();
 
-    ErrorCode Verify();
-    ErrorCode Dump(FILE* stream);
-    ErrorCode Dump(const char* filePath);
+    ErrorCode Verify() const;
+    ErrorCode Dump(FILE* stream) const;
+    ErrorCode Dump(const char* filePath) const;
 
-    char& __attribute__((always_inline)) GetCellRef(int i, int j)
+    char& __attribute__((always_inline)) GetCellRef(int i, int j) const
     {
         return *(this->field + i * this->width + j);
     }
 
-    char GetCellValue(int i, int j);
+    char GetCellValue(int i, int j) const;
     void SetCellValue(int i, int j, char value);
 };

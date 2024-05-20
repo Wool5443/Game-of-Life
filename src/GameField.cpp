@@ -24,7 +24,7 @@ GameField::~GameField()
     this->field  = nullptr;
 }
 
-ErrorCode GameField::Verify()
+ErrorCode GameField::Verify() const
 {
     if (!this->field) return ERROR_NO_MEMORY;
     if (this->height < 0 || this->width < 0) return ERROR_BAD_FIELDS;
@@ -32,7 +32,7 @@ ErrorCode GameField::Verify()
     return EVERYTHING_FINE;
 }
 
-ErrorCode GameField::Dump(FILE* stream)
+ErrorCode GameField::Dump(FILE* stream) const
 {
     MyAssertSoft(stream, ERROR_BAD_FILE);
 
@@ -54,7 +54,7 @@ ErrorCode GameField::Dump(FILE* stream)
     return EVERYTHING_FINE;
 }
 
-ErrorCode GameField::Dump(const char* filePath)
+ErrorCode GameField::Dump(const char* filePath) const
 {
     MyAssertSoft(filePath, ERROR_NULLPTR);
 
@@ -68,7 +68,7 @@ ErrorCode GameField::Dump(const char* filePath)
     return EVERYTHING_FINE;
 }
 
-char GameField::GetCellValue(int i, int j)
+char GameField::GetCellValue(int i, int j) const
 {
     if (0 <= i && i < this->height &&
         0 <= j && j < this->width)
