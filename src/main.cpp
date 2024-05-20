@@ -6,6 +6,8 @@
 
 int main()
 {
+    errno = EVERYTHING_FINE;
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) fprintf(stderr, "%s\n", SDL_GetError());
 
     SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, -1, -1, WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -27,7 +29,7 @@ int main()
     }
 
     Game game(10, 10);
-    RETURN_ERROR(errno);
+    RETURN_ERROR((ErrorCode)errno);
 
     while (running)
     {
@@ -43,7 +45,7 @@ int main()
             }
         }
 
-        GameDraw(game.GetField());
+        GameDraw(surface, game.GetField());
         
         RETURN_ERROR(game.RunNewGeneration());
 

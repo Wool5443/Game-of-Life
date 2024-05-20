@@ -1,5 +1,5 @@
 #pragma once
 
-static const int   WINDOW_WIDTH  = 1450;
-static const int   WINDOW_HEIGHT = 830;
-static const char* WINDOW_TITLE  = "Mondelbrot";
+constexpr int   WINDOW_WIDTH  = 1450;
+constexpr int   WINDOW_HEIGHT = 830;
+constexpr const char* WINDOW_TITLE = "Game of Life";

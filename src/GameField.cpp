@@ -11,6 +11,8 @@ GameField::GameField(int width, int height)
 {
     if (!this->field)
         errno = ERROR_NO_MEMORY;
+    else
+        errno = EVERYTHING_FINE;
 }
 
 GameField::~GameField()

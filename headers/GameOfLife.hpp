@@ -13,9 +13,9 @@ public:
     Game(int fieldWidth, int fieldHeight);
     ~Game();
 
-    const char* __attribute__((always_inline)) GetField()
+    const GameField& __attribute__((always_inline)) GetField()
     {
-        return (const char*)oldField->field;
+        return *oldField;
     }
 
     ErrorCode Verify();
