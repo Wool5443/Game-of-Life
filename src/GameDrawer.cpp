@@ -32,11 +32,6 @@ ErrorCode _drawCell(SDL_Surface* surface, char value, int i, int j)
 
     uint32_t color = value == ALIVE ? LIVE_CELL_COLOR : DEAD_CELL_COLOR;
 
-    if (value == ALIVE)
-    {
-        printf("ALIVE: x = %d, y = %d\n", x, y);
-    }
-
     SDL_LockSurface(surface);
     SDL_FillRect(surface, &_cellRect, color);
     SDL_UnlockSurface(surface);

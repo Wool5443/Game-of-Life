@@ -1,4 +1,4 @@
-#include "KeyboardHandler.hpp"
+#include "EventHandler.hpp"
 #include "Utils.hpp"
 
 void KeyboardHandler(SDL_Event* e, bool* running)
@@ -16,6 +16,12 @@ void KeyboardHandler(SDL_Event* e, bool* running)
     }
 }
 
-void MouseButtonHandler(SDL_Event* e);
+void MouseButtonHandler(SDL_Event* e)
+{
 
-void MouseWheelHandler(SDL_Event* e);
+}
+
+void MouseWheelHandler(SDL_Event* e)
+{
+
+}
