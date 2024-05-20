@@ -3,7 +3,11 @@
 
 Game::Game(int fieldWidth, int fieldHeight)
     :   oldField{new GameField(fieldWidth, fieldHeight)},
-        newField{new GameField(fieldWidth, fieldHeight)} {}
+        newField{new GameField(fieldWidth, fieldHeight)}
+    {
+        if (!oldField || !newField)
+            errno = ERROR_NO_MEMORY;
+    }
 
 Game::~Game()
 {
