@@ -43,24 +43,24 @@ ErrorCode Game::RunNewGeneration()
 {
     int neighbors = 0;
 
-    for (int i = 0; i < this->oldField->height; i++)
+    for (int row = 0; row < this->oldField->height; row++)
     {
-        for (int j = 0; j < this->oldField->width; j++)
+        for (int col = 0; col < this->oldField->width; col++)
         {
             neighbors = 
-                oldField->GetCellValue(i - 1, j - 1) +
-                oldField->GetCellValue(i - 1, j) +
-                oldField->GetCellValue(i - 1, j + 1) +
+                oldField->GetCellValue(row - 1, col - 1) +
+                oldField->GetCellValue(row - 1, col) +
+                oldField->GetCellValue(row - 1, col + 1) +
 
-                oldField->GetCellValue(i, j - 1) +
-                oldField->GetCellValue(i, j + 1) +
+                oldField->GetCellValue(row, col - 1) +
+                oldField->GetCellValue(row, col + 1) +
 
-                oldField->GetCellValue(i + 1, j - 1) +
-                oldField->GetCellValue(i + 1, j) +
-                oldField->GetCellValue(i + 1, j + 1);
+                oldField->GetCellValue(row + 1, col - 1) +
+                oldField->GetCellValue(row + 1, col) +
+                oldField->GetCellValue(row + 1, col + 1);
 
-            char& oldCell = oldField->GetCellRef(i, j);
-            char& newCell = newField->GetCellRef(i, j);
+            char& oldCell = oldField->GetCellRef(row, col);
+            char& newCell = newField->GetCellRef(row, col);
 
             if (oldCell == ALIVE)
             {

@@ -5,6 +5,9 @@
 #include "GameDrawer.hpp"
 #include "EventHandler.hpp"
 
+constexpr int FIELD_WIDTH  = 1000;
+constexpr int FIELD_HEIGHT = 1000;
+
 int main()
 {
     errno = EVERYTHING_FINE;
@@ -20,7 +23,8 @@ int main()
     }
 
     SDL_Event e  = {};
-    bool running = true;
+    bool windowRunning = true;
+    bool gameRunning   = false;
 
     SDL_Surface* surface = SDL_GetWindowSurface(window);
     if (!surface)
@@ -29,24 +33,23 @@ int main()
         return ERROR_SDL;
     }
 
-    Game game(10, 10);
-    GameField field = game.GetField();
-    field.SetCellValue(3, 3, 1);
-    field.SetCellValue(3, 4, 1);
-    field.SetCellValue(3, 5, 1);
+    Game game(FIELD_WIDTH, FIELD_WIDTH);
     RETURN_ERROR((ErrorCode)errno);
 
-    while (running)
+    while (windowRunning)
     {
         while (SDL_PollEvent(&e))
         {
             switch (e.type)
             {
                 case SDL_QUIT:
-                    running = false;
+                    windowRunning = false;
                     break;
                 case SDL_KEYDOWN:
-                    KeyboardHandler(&e, &running);
+                    KeyboardHandler(&e, &windowRunning, &gameRunning);
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    MouseButtonHandler(&e, game);
                     break;
                 case SDL_WINDOWEVENT:
                     if (e.window.event == SDL_WINDOWEVENT_RESIZED)
@@ -59,8 +62,8 @@ int main()
 
         GameDraw(surface, game);
         SDL_UpdateWindowSurface(window);
-        SDL_Delay(100);
-        RETURN_ERROR(game.RunNewGeneration());
+        if (gameRunning)
+            RETURN_ERROR(game.RunNewGeneration());
     }
 
     SDL_DestroyWindow(window);

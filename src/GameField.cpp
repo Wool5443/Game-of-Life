@@ -40,11 +40,11 @@ ErrorCode GameField::Dump(FILE* stream) const
 
     fprintf(stream, "---------------------------\n");
 
-    for (int i = 0; i < this->height; i++)
+    for (int row = 0; row < this->height; row++)
     {
-        for (int j = 0; j < this->width; j++)
+        for (int col = 0; col < this->width; col++)
         {
-            fprintf(stream, "%2hhx ", this->GetCellRef(i, j));
+            fprintf(stream, "%2hhx ", this->GetCellRef(row, col));
         }
         putc('\n', stream);
     }
@@ -68,19 +68,19 @@ ErrorCode GameField::Dump(const char* filePath) const
     return EVERYTHING_FINE;
 }
 
-char GameField::GetCellValue(int i, int j) const
+char GameField::GetCellValue(int row, int col) const
 {
-    if (0 <= i && i < this->height &&
-        0 <= j && j < this->width)
-        return this->GetCellRef(i, j);
+    if (0 <= row && row < this->height &&
+        0 <= col && col < this->width)
+        return this->GetCellRef(row, col);
     return DEAD;
 }
 
-void GameField::SetCellValue(int i, int j, char value)
+void GameField::SetCellValue(int row, int col, char value)
 {
-    if (0 <= i && i < this->height &&
-        0 <= j && j < this->width)
-        this->GetCellRef(i, j) = value;
+    if (0 <= row && row < this->height &&
+        0 <= col && col < this->width)
+        this->GetCellRef(row, col) = value;
 }
 
 char* _fieldCreator(int size)

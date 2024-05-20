@@ -13,7 +13,7 @@ public:
     Game(int fieldWidth, int fieldHeight);
     ~Game();
 
-    const GameField& __attribute__((always_inline)) GetField() const
+    GameField& __attribute__((always_inline)) GetField() const
     {
         return *oldField;
     }

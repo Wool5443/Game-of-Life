@@ -19,11 +19,11 @@ struct GameField
     ErrorCode Dump(FILE* stream) const;
     ErrorCode Dump(const char* filePath) const;
 
-    char& __attribute__((always_inline)) GetCellRef(int i, int j) const
+    char& __attribute__((always_inline)) GetCellRef(int row, int col) const
     {
-        return *(this->field + i * this->width + j);
+        return *(this->field + row * this->width + col);
     }
 
-    char GetCellValue(int i, int j) const;
-    void SetCellValue(int i, int j, char value);
+    char GetCellValue(int row, int col) const;
+    void SetCellValue(int row, int col, char value);
 };
