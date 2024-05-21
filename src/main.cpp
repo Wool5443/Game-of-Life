@@ -36,6 +36,8 @@ int main()
     Game game(FIELD_WIDTH, FIELD_WIDTH);
     RETURN_ERROR((ErrorCode)errno);
 
+    InitDrawing(surface->format);
+
     while (windowRunning)
     {
         while (SDL_PollEvent(&e))
@@ -54,6 +56,7 @@ int main()
                 case SDL_WINDOWEVENT:
                     if (e.window.event == SDL_WINDOWEVENT_RESIZED)
                         surface = SDL_GetWindowSurface(window);
+                    DrawGrid(surface);
                     break;
                 default:
                     break;
@@ -62,6 +65,7 @@ int main()
 
         GameDraw(surface, game);
         SDL_UpdateWindowSurface(window);
+        SDL_Delay(50);
         if (gameRunning)
             RETURN_ERROR(game.RunNewGeneration());
     }

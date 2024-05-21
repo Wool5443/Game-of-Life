@@ -2,9 +2,6 @@
 #include "Utils.hpp"
 #include "GameDrawer.hpp"
 
-ErrorCode _liveCell(Game& game, int x, int y);
-ErrorCode _killCell(Game& game, int x, int y);
-
 void KeyboardHandler(SDL_Event* e, bool* windowRunning , bool* gameRunning )
 {
     MyAssertHard(e, ERROR_NULLPTR);
@@ -30,6 +27,8 @@ void MouseButtonHandler(SDL_Event* e, Game& game)
 
     int x = 0, y = 0;
     SDL_GetMouseState(&x, &y);
+    x -= 3;
+    y -= 3;
 
     int row = y / CELL_SIZE;
     int col = x / CELL_SIZE;
