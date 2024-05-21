@@ -30,8 +30,8 @@ void DrawGrid(SDL_Surface* surface)
 {
     MyAssertHard(surface, ERROR_NULLPTR);
 
-    int linesCountV = surface->w / CELL_SIZE;
-    int linesCountH = surface->h / CELL_SIZE;
+    int linesCountV = surface->w / CELL_SIZE + 1;
+    int linesCountH = surface->h / CELL_SIZE + 1;
 
     SDL_Rect* lines = new SDL_Rect[linesCountV + linesCountH];
     if (!lines)
