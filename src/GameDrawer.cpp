@@ -48,7 +48,6 @@ void DrawGrid(SDL_Surface* surface)
         lines[i] = { .x = 0, .y = y, .w = surface->w, .h = GRID_LINE_WIDTH };
 
     SDL_LockSurface(surface);
-    SDL_FillRect(surface, nullptr, BACKGROUND_COLOR);
     SDL_FillRects(surface, lines, linesCountV + linesCountH, GRID_COLOR);
     SDL_UnlockSurface(surface);
 
