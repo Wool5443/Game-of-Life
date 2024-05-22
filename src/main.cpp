@@ -6,8 +6,8 @@
 #include "EventHandler.hpp"
 #include "FieldModifier.hpp"
 
-constexpr int FIELD_WIDTH  = 1000;
-constexpr int FIELD_HEIGHT = 1000;
+constexpr int FIELD_WIDTH  = 192;
+constexpr int FIELD_HEIGHT = 108;
 
 constexpr uint64_t CLOCK_FREQUENCY = 2400000000; // 2.4 GHz
 
