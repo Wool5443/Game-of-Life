@@ -1,4 +1,4 @@
-#include <errno.h>
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "WindowProperties.hpp"
 #include "GameOfLife.hpp"
@@ -8,6 +8,8 @@
 
 constexpr int FIELD_WIDTH  = 1000;
 constexpr int FIELD_HEIGHT = 1000;
+
+constexpr uint64_t CLOCK_FREQUENCY = 2400000000; // 2.4 GHz
 
 int main()
 {
@@ -44,10 +46,14 @@ int main()
 
     InitDrawing(surface->format);
 
+    Timer gameTimer = {};
+
     while (windowRunning)
     {
         while (SDL_PollEvent(&e))
         {
+            gameTimer.Start();
+
             switch (e.type)
             {
                 case SDL_QUIT:
@@ -84,9 +90,17 @@ int main()
         if (gameRunning)
         {
             if (runOnlyNextGeneration)
+            {
                 gameRunning = false;
-            SDL_Delay(delay);
+                runOnlyNextGeneration = false;
+            }
             RETURN_ERROR(game.RunNewGeneration());
+
+            uint64_t deltaTimeMs = gameTimer.Stop() * 1000 / CLOCK_FREQUENCY;
+            int      realDelay   = deltaTimeMs < delay ? delay - deltaTimeMs : 0;
+
+            SDL_Delay(realDelay); // to keep constant delay
+            gameTimer.Start();
         }
     }
 
