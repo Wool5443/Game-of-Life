@@ -45,7 +45,7 @@ void MouseButtonHandler(SDL_Event& e, Game& game, DrawingState& state)
         if (e.button.button == SDL_BUTTON_LEFT)
             state = DRAWING_STATE_DRAWING;
         else if (e.button.button == SDL_BUTTON_RIGHT)
-            state = DRAWING_STATE_IDLE;
+            state = DRAWING_STATE_ERASING;
     }
     else
     {
