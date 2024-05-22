@@ -4,6 +4,7 @@
 #include "GameOfLife.hpp"
 #include "GameDrawer.hpp"
 #include "EventHandler.hpp"
+#include "FieldModifier.hpp"
 
 constexpr int FIELD_WIDTH  = 1000;
 constexpr int FIELD_HEIGHT = 1000;
@@ -23,8 +24,10 @@ int main()
     }
 
     SDL_Event e  = {};
-    bool windowRunning = true;
-    bool gameRunning   = false;
+    bool         windowRunning = true;
+    bool         gameRunning   = false;
+    DrawingState state         = DRAWING_STATE_IDLE;
+    int          delay         = DEFAULT_DELAY;
 
     SDL_Surface* surface = SDL_GetWindowSurface(window);
     if (!surface)
@@ -48,10 +51,14 @@ int main()
                     windowRunning = false;
                     break;
                 case SDL_KEYDOWN:
-                    KeyboardHandler(&e, &windowRunning, &gameRunning);
+                    KeyboardHandler(e, windowRunning, gameRunning, delay);
                     break;
+                case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEBUTTONDOWN:
-                    MouseButtonHandler(&e, game);
+                    MouseButtonHandler(e, game, state);
+                    break;
+                case SDL_MOUSEWHEEL:
+                    MouseWheelHandler(e, delay);
                     break;
                 case SDL_WINDOWEVENT:
                     if (e.window.event == SDL_WINDOWEVENT_RESIZED)
@@ -63,11 +70,18 @@ int main()
             }
         }
 
+        int x = 0, y = 0;
+        SDL_GetMouseState(&x, &y);
+        FieldModify(game, state, x, y);
+
         GameDraw(surface, game);
         SDL_UpdateWindowSurface(window);
-        SDL_Delay(50);
+        
         if (gameRunning)
+        {
+            SDL_Delay(delay);
             RETURN_ERROR(game.RunNewGeneration());
+        }
     }
 
     SDL_DestroyWindow(window);

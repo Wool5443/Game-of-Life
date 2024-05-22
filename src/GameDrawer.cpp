@@ -60,8 +60,7 @@ void _drawCell(SDL_Surface* surface, char value, int row, int col)
 {
     MyAssertHard(surface, ERROR_NULLPTR);
 
-    int x = col * CELL_SIZE;
-    int y = row * CELL_SIZE;
+    GET_SCREEN_COORDINATES(row, col);
 
     _cellRect.x = x;
     _cellRect.y = y;

@@ -2,44 +2,61 @@
 #include "Utils.hpp"
 #include "GameDrawer.hpp"
 
-void KeyboardHandler(SDL_Event* e, bool* windowRunning , bool* gameRunning )
+inline int __attribute__((always_inline)) _newDelay(int delay, int modifier)
 {
-    MyAssertHard(e, ERROR_NULLPTR);
-    MyAssertHard(windowRunning, ERROR_NULLPTR);
-    MyAssertHard(gameRunning,   ERROR_NULLPTR);
+    int newDelay = delay + modifier;
 
-    switch (e->key.keysym.sym)
+    if (newDelay > MAX_DELAY)
+        newDelay = MAX_DELAY;
+    else if (newDelay < 0)
+        newDelay = 0;
+
+    return newDelay;
+}
+
+void KeyboardHandler(SDL_Event& e, bool& windowRunning , bool& gameRunning, int& delay)
+{
+    switch (e.key.keysym.sym)
     {
         case SDLK_x:
-            *windowRunning = false;
+            windowRunning = false;
             break;
         case SDLK_p:
-            *gameRunning   = !*gameRunning;
+            gameRunning   = !gameRunning;
+            break;
+        case SDLK_EQUALS:
+            delay = _newDelay(delay, DELAY_CHANGER);
+            break;
+        case SDLK_MINUS:
+            delay = _newDelay(delay, DELAY_CHANGER);
+            break;
+        case SDLK_c:
+            delay = DEFAULT_DELAY;
             break;
         default:
             break;
     }
 }
 
-void MouseButtonHandler(SDL_Event* e, Game& game)
+void MouseButtonHandler(SDL_Event& e, Game& game, DrawingState& state)
 {
-    MyAssertHard(e, ERROR_NULLPTR);
-
-    int x = 0, y = 0;
-    SDL_GetMouseState(&x, &y);
-    x -= 3;
-    y -= 3;
-
-    int row = y / CELL_SIZE;
-    int col = x / CELL_SIZE;
-
-    if (e->button.button == SDL_BUTTON_LEFT)
-        game.GetField().SetCellValue(row, col, ALIVE);
-    else if (e->button.button == SDL_BUTTON_RIGHT)
-        game.GetField().SetCellValue(row, col, DEAD);
+    if (e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        if (e.button.button == SDL_BUTTON_LEFT)
+            state = DRAWING_STATE_DRAWING;
+        else if (e.button.button == SDL_BUTTON_RIGHT)
+            state = DRAWING_STATE_IDLE;
+    }
+    else
+    {
+        state = DRAWING_STATE_IDLE;
+    }
 }
 
-void MouseWheelHandler(SDL_Event* e)
+void MouseWheelHandler(SDL_Event& e, int& delay)
 {
-    MyAssertHard(e, ERROR_NULLPTR);
+    if (e.wheel.y > 0)
+        delay = _newDelay(delay, DELAY_CHANGER);
+    else
+        delay = _newDelay(delay, -DELAY_CHANGER);
 }

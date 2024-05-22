@@ -2,15 +2,17 @@
 
 #include "Utils.hpp"
 
-constexpr char   ALIVE = 1;
-constexpr char   DEAD  = 0;
+typedef char fieldCell_t;
+
+constexpr fieldCell_t ALIVE = 1;
+constexpr fieldCell_t DEAD  = 0;
 
 struct GameField
 {
-    int   width;
-    int   height;
-    int   size;
-    char* field;
+    int          width;
+    int          height;
+    int          size;
+    fieldCell_t* field;
 
     GameField(int width, int height);
     ~GameField();

@@ -59,8 +59,8 @@ ErrorCode Game::RunNewGeneration()
                 oldField->GetCellValue(row + 1, col) +
                 oldField->GetCellValue(row + 1, col + 1);
 
-            char& oldCell = oldField->GetCellRef(row, col);
-            char& newCell = newField->GetCellRef(row, col);
+            fieldCell_t& oldCell = oldField->GetCellRef(row, col);
+            fieldCell_t& newCell = newField->GetCellRef(row, col);
 
             if (oldCell == ALIVE)
             {
