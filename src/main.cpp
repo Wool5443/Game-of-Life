@@ -24,10 +24,11 @@ int main()
     }
 
     SDL_Event e  = {};
-    bool         windowRunning = true;
-    bool         gameRunning   = false;
-    DrawingState state         = DRAWING_STATE_IDLE;
-    int          delay         = DEFAULT_DELAY;
+    bool         windowRunning         = true;
+    bool         gameRunning           = false;
+    bool         runOnlyNextGeneration = false;
+    DrawingState state                 = DRAWING_STATE_IDLE;
+    int          delay                 = DEFAULT_DELAY;
 
     SDL_Surface* surface = SDL_GetWindowSurface(window);
     if (!surface)
@@ -53,7 +54,8 @@ int main()
                     windowRunning = false;
                     break;
                 case SDL_KEYDOWN:
-                    KeyboardHandler(e, windowRunning, gameRunning, delay);
+                    KeyboardHandler(e, windowRunning, gameRunning,
+                                    runOnlyNextGeneration, delay);
                     break;
                 case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEBUTTONDOWN:
@@ -81,6 +83,8 @@ int main()
         
         if (gameRunning)
         {
+            if (runOnlyNextGeneration)
+                gameRunning = false;
             SDL_Delay(delay);
             RETURN_ERROR(game.RunNewGeneration());
         }

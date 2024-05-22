@@ -14,7 +14,7 @@ inline int __attribute__((always_inline)) _newDelay(int delay, int modifier)
     return newDelay;
 }
 
-void KeyboardHandler(SDL_Event& e, bool& windowRunning , bool& gameRunning, int& delay)
+void KeyboardHandler(SDL_Event& e, bool& windowRunning, bool& gameRunning, bool& runOnlyNextGeneration, int& delay)
 {
     switch (e.key.keysym.sym)
     {
@@ -23,6 +23,10 @@ void KeyboardHandler(SDL_Event& e, bool& windowRunning , bool& gameRunning, int&
             break;
         case SDLK_p:
             gameRunning   = !gameRunning;
+            break;
+        case SDLK_s:
+            gameRunning = true;
+            runOnlyNextGeneration = true;
             break;
         case SDLK_EQUALS:
             delay = _newDelay(delay, DELAY_CHANGER);
