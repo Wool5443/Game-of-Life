@@ -36,8 +36,10 @@ int main()
         return ERROR_SDL;
     }
 
-    Game game(FIELD_WIDTH, FIELD_WIDTH);
-    RETURN_ERROR((ErrorCode)errno);
+    ErrorCode error = EVERYTHING_FINE;
+
+    Game game(FIELD_WIDTH, FIELD_WIDTH, error);
+    RETURN_ERROR(error);
 
     InitDrawing(surface->format);
 

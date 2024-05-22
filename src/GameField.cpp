@@ -3,16 +3,14 @@
 
 char* _fieldCreator(int size);
 
-GameField::GameField(int width, int height)
+GameField::GameField(int width, int height, ErrorCode& error)
     :   width{width},
         height{height},
         size{width * height},
         field{_fieldCreator(size)}
 {
     if (!this->field)
-        errno = ERROR_NO_MEMORY;
-    else
-        errno = EVERYTHING_FINE;
+        error = ERROR_NO_MEMORY;
 }
 
 GameField::~GameField()

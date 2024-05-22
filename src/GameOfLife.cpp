@@ -1,12 +1,16 @@
 #include <errno.h>
 #include "GameOfLife.hpp"
 
-Game::Game(int fieldWidth, int fieldHeight)
-    :   oldField{new GameField(fieldWidth, fieldHeight)},
-        newField{new GameField(fieldWidth, fieldHeight)}
+Game::Game(int fieldWidth, int fieldHeight, ErrorCode& error)
     {
-        if (!oldField || !newField)
-            errno = ERROR_NO_MEMORY;
+        oldField = new GameField(fieldWidth, fieldHeight, error);
+        newField = new GameField(fieldWidth, fieldHeight, error);
+
+        if (error)
+        {
+            delete oldField;
+            delete newField;
+        }
     }
 
 Game::~Game()

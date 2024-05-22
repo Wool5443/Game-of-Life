@@ -14,7 +14,7 @@ struct GameField
     int          size;
     fieldCell_t* field;
 
-    GameField(int width, int height);
+    GameField(int width, int height, ErrorCode& error);
     ~GameField();
 
     ErrorCode Verify() const;

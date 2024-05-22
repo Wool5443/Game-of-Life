@@ -10,7 +10,7 @@ class Game
     ErrorCode dump(FILE* stream);
 
 public:
-    Game(int fieldWidth, int fieldHeight);
+    Game(int fieldWidth, int fieldHeight, ErrorCode& error);
     ~Game();
 
     GameField& __attribute__((always_inline)) GetField() const
