@@ -30,7 +30,7 @@ int main()
     bool         gameRunning           = false;
     bool         runOnlyNextGeneration = false;
     DrawingState state                 = DRAWING_STATE_IDLE;
-    int          delay                 = DEFAULT_DELAY;
+    int          goalFrameTime                 = DEFAULT_DELAY;
 
     SDL_Surface* surface = SDL_GetWindowSurface(window);
     if (!surface)
@@ -61,14 +61,14 @@ int main()
                     break;
                 case SDL_KEYDOWN:
                     KeyboardHandler(e, windowRunning, gameRunning,
-                                    runOnlyNextGeneration, delay);
+                                    runOnlyNextGeneration, goalFrameTime);
                     break;
                 case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEBUTTONDOWN:
                     MouseButtonHandler(e, game, state);
                     break;
                 case SDL_MOUSEWHEEL:
-                    MouseWheelHandler(e, delay);
+                    MouseWheelHandler(e, goalFrameTime);
                     break;
                 case SDL_WINDOWEVENT:
                     if (e.window.event == SDL_WINDOWEVENT_RESIZED)
@@ -96,10 +96,11 @@ int main()
             }
             RETURN_ERROR(game.RunNewGeneration());
 
-            uint64_t deltaTimeMs = gameTimer.Stop() * 1000 / CLOCK_FREQUENCY;
-            int      realDelay   = deltaTimeMs < delay ? delay - deltaTimeMs : 0; // to keep constant delay
+            uint64_t frameTime = gameTimer.Stop() * 1000 / CLOCK_FREQUENCY;
+            // keeping constant frame time
+            int      toWait    = frameTime < goalFrameTime ? goalFrameTime - frameTime : 0;
 
-            SDL_Delay(realDelay);
+            SDL_Delay(toWait);
             gameTimer.Start();
         }
     }
