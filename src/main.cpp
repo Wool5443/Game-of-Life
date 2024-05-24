@@ -97,9 +97,9 @@ int main()
             RETURN_ERROR(game.RunNewGeneration());
 
             uint64_t deltaTimeMs = gameTimer.Stop() * 1000 / CLOCK_FREQUENCY;
-            int      realDelay   = deltaTimeMs < delay ? delay - deltaTimeMs : 0;
+            int      realDelay   = deltaTimeMs < delay ? delay - deltaTimeMs : 0; // to keep constant delay
 
-            SDL_Delay(realDelay); // to keep constant delay
+            SDL_Delay(realDelay);
             gameTimer.Start();
         }
     }
