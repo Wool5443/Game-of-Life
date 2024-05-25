@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 set(projectName "GameOfLife")
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL2 REQUIRED sdl2)
+pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_image)
 
 set(CMAKE_NASM_LINK_EXECUTABLE "ld <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 set(CAN_USE_ASSEMBLER TRUE)
@@ -22,16 +22,16 @@ set(CMAKE_EXE_LINKER_FLAGS "-no-pie")
 add_compile_definitions(NEMIT_DATA)
 add_compile_definitions(FINAL_TESTING=100)
 
-FILE(GLOB SOURCE_CPP src/*.cpp Utils/*.cpp)
-FILE(GLOB SOURCE_HPP headers/*.hpp Utils/*.hpp)
+FILE(GLOB SOURCE_CPP src/*.cpp Utils/*.cpp Graph-Utils/*.cpp)
+FILE(GLOB SOURCE_HPP headers/*.hpp Utils/*.hpp Graph-Utils/*.hpp)
 
 set(SOURCES
     ${SOURCE_CPP}
     ${SOURCE_HPP}
 )
 
-include_directories(headers Utils)
+include_directories(headers Utils Graph-Utils)
 
 add_executable(${projectName} ${SOURCES})
 
-target_link_libraries(${projectName} ${SDL2_LIBRARIES})
+target_link_libraries(${projectName} ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})

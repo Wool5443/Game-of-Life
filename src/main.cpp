@@ -1,13 +1,19 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "WindowProperties.hpp"
 #include "GameOfLife.hpp"
 #include "GameDrawer.hpp"
 #include "EventHandler.hpp"
 #include "FieldModifier.hpp"
+#include "GraphUtils.hpp"
 
 constexpr int FIELD_WIDTH  = 192;
 constexpr int FIELD_HEIGHT = 108;
+
+constexpr int MS_IN_SEC    = 1000;
+
+constexpr const char* DIGITS_PATH = "../resources/numbers2.png";
 
 constexpr uint64_t CLOCK_FREQUENCY = 2400000000; // 2.4 GHz
 
@@ -16,6 +22,7 @@ int main()
     errno = EVERYTHING_FINE;
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) fprintf(stderr, "%s\n", SDL_GetError());
+    if (IMG_Init(IMG_INIT_PNG) != 0) fprintf(stderr, "%s\n", SDL_GetError());
 
     SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, -1, -1, WINDOW_WIDTH, WINDOW_HEIGHT,
                                           SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -34,6 +41,12 @@ int main()
 
     SDL_Surface* surface = SDL_GetWindowSurface(window);
     if (!surface)
+    {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return ERROR_SDL;
+    }
+    SDL_Surface* digits  = IMG_Load(DIGITS_PATH);
+    if (!digits)
     {
         fprintf(stderr, "%s\n", SDL_GetError());
         return ERROR_SDL;
@@ -80,6 +93,8 @@ int main()
             }
         }
 
+        gameTimer.Start();
+
         int x = 0, y = 0;
         SDL_GetMouseState(&x, &y);
         FieldModify(game, state, x, y);
@@ -89,19 +104,24 @@ int main()
         
         if (gameRunning)
         {
+            RETURN_ERROR(game.RunNewGeneration());
+
             if (runOnlyNextGeneration)
             {
                 gameRunning = false;
                 runOnlyNextGeneration = false;
             }
-            RETURN_ERROR(game.RunNewGeneration());
+            else
+            {
+                uint64_t frameTime = gameTimer.Stop() * MS_IN_SEC / CLOCK_FREQUENCY;
+                int      fps       = MS_IN_SEC / frameTime;
+                ShowFps(surface, digits, fps);
 
-            uint64_t frameTime = gameTimer.Stop() * 1000 / CLOCK_FREQUENCY;
-            // keeping constant frame time
-            int      toWait    = frameTime < goalFrameTime ? goalFrameTime - frameTime : 0;
+                // keeping constant frame time
+                int      toWait    = frameTime < goalFrameTime ? goalFrameTime - frameTime : 0;
 
-            SDL_Delay(toWait);
-            gameTimer.Start();
+                SDL_Delay(toWait);
+            }
         }
     }
 
