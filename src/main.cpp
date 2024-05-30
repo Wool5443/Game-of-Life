@@ -17,7 +17,7 @@ constexpr const char* DIGITS_PATH = "../resources/numbers2.png";
 
 constexpr uint64_t CLOCK_FREQUENCY = 2400000000; // 2.4 GHz
 
-int main()
+int main(int argc, char* argv[])
 {
     errno = EVERYTHING_FINE;
 
