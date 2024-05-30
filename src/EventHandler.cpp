@@ -32,7 +32,7 @@ void KeyboardHandler(SDL_Event& e, bool& windowRunning, bool& gameRunning, bool&
             delay = _newDelay(delay, DELAY_CHANGER);
             break;
         case SDLK_MINUS:
-            delay = _newDelay(delay, DELAY_CHANGER);
+            delay = _newDelay(delay, -DELAY_CHANGER);
             break;
         case SDLK_c:
             delay = DEFAULT_DELAY;
